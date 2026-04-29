@@ -37,3 +37,29 @@ def test_calculate_expression():
 def test_calculate_invalid():
     with pytest.raises(ValueError):
         calculate("no operator here")
+
+
+def test_calculate_operator_precedence():
+    assert calculate("2 + 3 * 4") == 14.0
+    assert calculate("10 - 2 * 3") == 4.0
+    assert calculate("8 / 2 + 1") == 5.0
+
+
+def test_calculate_parentheses():
+    assert calculate("(2 + 3) * 4") == 20.0
+    assert calculate("10 / (2 + 3)") == 2.0
+    assert calculate("(1 + 2) * (3 + 4)") == 21.0
+
+
+def test_calculate_nested_parentheses():
+    assert calculate("((2 + 3) * 2) - 4") == 6.0
+
+
+def test_calculate_unary_minus():
+    assert calculate("-3 + 5") == 2.0
+    assert calculate("-(2 + 3)") == -5.0
+
+
+def test_calculate_divide_by_zero_expression():
+    with pytest.raises(ValueError, match="Cannot divide by zero"):
+        calculate("10 / 0")
